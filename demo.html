@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href='fullcalendar/fullcalendar.css' rel='stylesheet' />
+<link href='fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+<script src='jquery/jquery-1.9.1.min.js'></script>
+<script src='jquery/jquery-ui-1.10.2.custom.min.js'></script>
+<script src='fullcalendar/fullcalendar.min.js'></script>
+<script src='fullcalendar/gcal.js'></script>
+<script>
+
+	$(document).ready(function() {
+	
+		var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
+		
+		var calendar = $('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: ''
+			},
+			firstDay: 1,
+			minTime:8,
+			maxTime:20,
+			allDaySlot:false,
+			defaultView: 'agendaWeek',
+			selectable: true,
+			selectHelper: true,
+			select: function(start, end, allDay) {
+				var title = prompt('Event Title:');
+				if (title) {
+					calendar.fullCalendar('renderEvent',
+						{
+							title: title,
+							start: start,
+							end: end,
+							allDay: allDay
+						},
+						true // make the event "stick"
+					);
+				}
+				calendar.fullCalendar('unselect');
+			},
+			editable: true,
+			events: 'https://www.google.com/calendar/feeds/67knrb6paqe9b7lb4kotdc8380%40group.calendar.google.com/public/basic',
+			eventColor: '#999999',
+
+            timeFormat: {
+                // for agendaWeek and agendaDay do not display time in title (time already displayed in the view)
+                agenda: '',
+
+                // for all other views (19p)
+                '': 'H:mm{ - H:mm}'
+            },
+
+            // *** use long day names by using 'dddd' ***
+            columnFormat: {
+                month: 'dddd',    // Monday, Wednesday, etc
+                week: 'dddd, MMM dS', // Monday 9/7
+                day: 'dddd, MMM dS'  // Monday 9/7
+            },
+
+            axisFormat: 'H:mm',
+
+			
+		});
+		
+	});
+
+</script>
+<style>
+
+	body {
+		margin-top: 40px;
+		text-align: center;
+		font-size: 14px;
+		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		}
+
+	#calendar {
+		width: 900px;
+		margin: 0 auto;
+		}
+
+</style>
+</head>
+<body>
+<div id='calendar'></div>
+</body>
+</html>
